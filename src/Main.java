@@ -6,8 +6,8 @@ import app.Game;
  */
 public class Main {
     public static void main(String[] args) {
-        FieldGenerator.generateAndWrite(15, 15, 50);
-        Game game = new Game("src/fields/15x15.txt");
+        FieldGenerator.generateAndWrite(5, 5, 1);
+        Game game = new Game("src/fields/5x5.txt");
         game.gameStart();
 //        app.Mine mine35 = new app.Mine("src/fields/3x5.txt");
 //        app.Mine mine44 = new app.Mine("src/fields/4x4.txt");
