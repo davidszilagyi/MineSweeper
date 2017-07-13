@@ -42,13 +42,12 @@ public class Game {
             } else if (checkBomb(xPos - 1, yPos - 1)) {
                 boomed = true;
                 game = false;
-                endGame();
+                endGame(xPos - 1, yPos - 1);
             } else {
                 score++;
             }
             if (checkAvailablePos()) {
                 game = false;
-                mine.showBoard(solved);
                 endGame();
             }
         }
@@ -119,18 +118,25 @@ public class Game {
     }
 
     private void endGame() {
+        mine.showBoard(solved);
+        System.out.printf("\nYOU WIN!");
+    }
+
+    private void endGame(int lastXPos, int lastYPos) {
         if (boomed) {
             for (int i = 0; i < x; i++) {
                 for (int k = 0; k < y; k++) {
                     if (solved[i][k].equals(Field.BOMB)) {
-                        solution[i][k] = solved[i][k];
+                        if (i == lastXPos && k == lastYPos) {
+                            solution[i][k] = Field.BOOM;
+                        } else {
+                            solution[i][k] = Field.BOMB;
+                        }
                     }
                 }
             }
             mine.showBoard(solution);
             System.out.printf("\nBOOOOOOOM!\nYou lost :(\nScore: %d", score);
-        } else {
-            System.out.printf("\nYOU WIN!");
         }
     }
 }
