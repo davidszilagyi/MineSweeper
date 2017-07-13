@@ -5,5 +5,6 @@ package app;
  */
 public final class Field {
     protected static final char BOMB = '*';
+    protected static final char BOOM = 'B';
     protected static final char FIELD = '.';
 }
