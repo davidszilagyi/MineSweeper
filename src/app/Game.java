@@ -1,32 +1,23 @@
 package app;
 
-import app.Field;
-import app.Mine;
-
 import java.util.Scanner;
 
 /**
  * Created by David Szilagyi on 2017. 07. 13..
  */
-public class Game {
+public class Game extends Mine{
     private int score;
     private boolean boomed = false;
-    private Mine mine = null;
-    private Object[][] solution = null;
-    private Object[][] solved = null;
+    private Object[][] playerSolution = null;
     private boolean[][] checked;
-    private int x;
-    private int y;
     private int boomZeros;
 
     public Game(String file) {
-        this.mine = new Mine(file);
-        mine.start();
-        this.x = mine.getHeight();
-        this.y = mine.getWidth();
-        this.solved = mine.getBoard();
-        this.checked = new boolean[x][y];
+        super(file);
+        start();
+        this.checked = new boolean[height][width];
         this.boomZeros = 1;
+        this.playerSolution = new Object[height][width];
     }
 
     public void gameStart() {
@@ -34,10 +25,10 @@ public class Game {
         boomZeros();
         boolean game = true;
         while (game) {
-            mine.showBoard(solution);
-            System.out.printf("X Pos (1 - %d):", x);
+            Field.showBoard(playerSolution, height, width);
+            System.out.printf("X Pos (1 - %d):", height);
             int xPos = new Scanner(System.in).nextInt();
-            System.out.printf("Y Pos (1 - %d):", y);
+            System.out.printf("Y Pos (1 - %d):", width);
             int yPos = new Scanner(System.in).nextInt();
             if (checked[xPos - 1][yPos - 1]) {
                 System.out.println("Already checked!");
@@ -78,34 +69,33 @@ public class Game {
     }
 
     private void createSolutionField() {
-        this.solution = new Object[x][y];
-        for (int i = 0; i < x; i++) {
-            for (int k = 0; k < y; k++) {
-                solution[i][k] = Field.FIELD;
+        for (int i = 0; i < height; i++) {
+            for (int k = 0; k < width; k++) {
+                playerSolution[i][k] = Field.FIELD;
             }
         }
     }
 
     private boolean checkAvailablePos() {
         int available = 0;
-        for (int i = 0; i < x; i++) {
-            for (int k = 0; k < y; k++) {
-                if (solution[i][k].equals(Field.FIELD)) {
+        for (int i = 0; i < height; i++) {
+            for (int k = 0; k < width; k++) {
+                if (playerSolution[i][k].equals(Field.FIELD)) {
                     available++;
                 }
             }
         }
-        return available == mine.getCurBombs() ? true : false;
+        return available == curBombs ? true : false;
     }
 
     private boolean checkBomb(int xPos, int yPos) {
         try {
-            if (solved[xPos][yPos].equals(Field.BOMB)) {
+            if (board[xPos][yPos].equals(Field.BOMB)) {
                 return true;
             } else {
                 appendSolution(xPos, yPos);
                 if (boomZeros == 1) {
-                    if (solution[xPos][yPos].equals(0)) {
+                    if (playerSolution[xPos][yPos].equals(0)) {
                         checkZero(xPos, yPos);
                     }
                 }
@@ -125,10 +115,10 @@ public class Game {
                         continue;
                     } else if (checked[i][k]) {
                         continue;
-                    } else if (solved[i][k].equals(0)) {
+                    } else if (board[i][k].equals(0)) {
                         appendSolution(i, k);
                         checkZero(i, k);
-                    } else if (!solved[i][k].equals(Field.BOMB)) {
+                    } else if (!board[i][k].equals(Field.BOMB)) {
                         appendSolution(i, k);
                     }
                 } catch (IndexOutOfBoundsException e) {
@@ -139,29 +129,29 @@ public class Game {
     }
 
     private void appendSolution(int xPos, int yPos) {
-        solution[xPos][yPos] = solved[xPos][yPos];
+        playerSolution[xPos][yPos] = board[xPos][yPos];
         checked[xPos][yPos] = true;
     }
 
     private void endGame() {
-        mine.showBoard(solved);
+        Field.showBoard(board, height, width);
         System.out.printf("\nYOU WIN!");
     }
 
     private void endGame(int lastXPos, int lastYPos) {
         if (boomed) {
-            for (int i = 0; i < x; i++) {
-                for (int k = 0; k < y; k++) {
-                    if (solved[i][k].equals(Field.BOMB)) {
+            for (int i = 0; i < height; i++) {
+                for (int k = 0; k < width; k++) {
+                    if (board[i][k].equals(Field.BOMB)) {
                         if (i == lastXPos && k == lastYPos) {
-                            solution[i][k] = Field.BOOM;
+                            playerSolution[i][k] = Field.BOOM;
                         } else {
-                            solution[i][k] = Field.BOMB;
+                            playerSolution[i][k] = Field.BOMB;
                         }
                     }
                 }
             }
-            mine.showBoard(solution);
+            Field.showBoard(playerSolution, height, width);
             System.out.printf("\nBOOOOOOOM!\nYou lost :(\nScore: %d", score);
         }
     }

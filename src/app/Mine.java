@@ -10,10 +10,10 @@ import java.io.IOException;
  */
 public class Mine {
     private BufferedReader br = null;
-    private int height;
-    private int width;
-    private Object[][] board;
-    private int curBombs;
+    protected int height;
+    protected int width;
+    protected Object[][] board;
+    protected int curBombs;
 
     public Mine(String file) {
         try {
@@ -45,16 +45,6 @@ public class Mine {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void showBoard(Object[][] board) {
-        System.out.println("\nThe board:");
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                System.out.print(board[x][y] + " ");
-            }
-            System.out.println();
         }
     }
 
@@ -92,27 +82,11 @@ public class Mine {
         }
     }
 
-    public Object[][] getBoard() {
-        return board;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getCurBombs() {
-        return curBombs;
-    }
-
     public void start() {
         createBoard();
-//        showBoard(board);
+//        Field.showBoard(board, height, width);
         addZero();
         solve();
-//        showBoard(board);
+//        Field.showBoard(board, height, width);
     }
 }
