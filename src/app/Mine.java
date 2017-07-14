@@ -84,9 +84,7 @@ public class Mine {
 
     public void start() {
         createBoard();
-//        Field.showBoard(board, height, width);
         addZero();
         solve();
-//        Field.showBoard(board, height, width);
     }
 }
