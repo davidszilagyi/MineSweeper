@@ -46,7 +46,7 @@ public class Game extends Mine {
                     break;
                 case "zero":
                     boomZeros = !boomZeros;
-                    if(boomZeros) {
+                    if (boomZeros) {
                         System.out.println("Zeros will be destroyed!");
                     } else {
                         System.out.println("Zeros will NOT be destroyed!");
@@ -64,10 +64,18 @@ public class Game extends Mine {
     }
 
     private void input() {
-        System.out.printf("X Pos (1 - %d):", height);
-        playerXPos = new Scanner(System.in).nextInt();
-        System.out.printf("Y Pos (1 - %d):", width);
-        playerYPos = new Scanner(System.in).nextInt();
+        boolean correct = false;
+        while(!correct) {
+            System.out.printf("X Pos (1 - %d):", height);
+            playerXPos = new Scanner(System.in).nextInt();
+            System.out.printf("Y Pos (1 - %d):", width);
+            playerYPos = new Scanner(System.in).nextInt();
+            if(playerXPos > height || playerYPos > width) {
+                System.out.println("Wrong positions!");
+            } else {
+                correct = true;
+            }
+        }
     }
 
     private boolean checkField(int xPos, int yPos) {
@@ -108,20 +116,15 @@ public class Game extends Mine {
     }
 
     private boolean checkBomb(int xPos, int yPos) {
-        try {
-            if (board[xPos][yPos].equals(Field.BOMB)) {
-                return true;
-            } else {
-                appendSolution(xPos, yPos);
-                if (boomZeros) {
-                    if (playerSolution[xPos][yPos].equals(0)) {
-                        checkZero(xPos, yPos);
-                    }
+        if (board[xPos][yPos].equals(Field.BOMB)) {
+            return true;
+        } else {
+            appendSolution(xPos, yPos);
+            if (boomZeros) {
+                if (playerSolution[xPos][yPos].equals(0)) {
+                    checkZero(xPos, yPos);
                 }
-                return false;
             }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Wrong postions!");
             return false;
         }
     }
