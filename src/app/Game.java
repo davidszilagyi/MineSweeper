@@ -17,6 +17,7 @@ public class Game {
     private boolean[][] checked;
     private int x;
     private int y;
+    private int boomZeros;
 
     public Game(String file) {
         this.mine = new Mine(file);
@@ -25,10 +26,12 @@ public class Game {
         this.y = mine.getWidth();
         this.solved = mine.getBoard();
         this.checked = new boolean[x][y];
+        this.boomZeros = 1;
     }
 
     public void gameStart() {
         createSolutionField();
+        boomZeros();
         boolean game = true;
         while (game) {
             mine.showBoard(solution);
@@ -49,6 +52,27 @@ public class Game {
             if (checkAvailablePos()) {
                 game = false;
                 endGame();
+            }
+        }
+    }
+
+    private void boomZeros() {
+        System.out.print("Do you want to destroy zero fields if you hit one? (Y/N): ");
+        boolean correct = false;
+        while (!correct) {
+            String answer = new Scanner(System.in).nextLine();
+            switch (answer.toUpperCase().charAt(0)) {
+                case ('Y'):
+                    boomZeros = 1;
+                    correct = true;
+                    break;
+                case ('N'):
+                    boomZeros = 0;
+                    correct = true;
+                    break;
+                default:
+                    System.out.print("Please enter 'Y' or 'N': ");
+                    break;
             }
         }
     }
@@ -80,8 +104,10 @@ public class Game {
                 return true;
             } else {
                 appendSolution(xPos, yPos);
-                if (solution[xPos][yPos].equals(0)) {
-                    checkZero(xPos, yPos);
+                if (boomZeros == 1) {
+                    if (solution[xPos][yPos].equals(0)) {
+                        checkZero(xPos, yPos);
+                    }
                 }
                 return false;
             }
