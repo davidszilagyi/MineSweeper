@@ -9,7 +9,10 @@ import java.util.Random;
 /**
  * Created by David Szilagyi on 2017. 07. 13..
  */
-public class FieldGenerator {
+public final class FieldGenerator {
+
+    private FieldGenerator() {}
+
     public static void generateAndWrite(int height, int width, int maxBombs) {
         Random rand = new Random();
         char[] field = new char[2];
@@ -45,7 +48,7 @@ public class FieldGenerator {
                 writer.println(line);
             }
             writer.close();
-            System.out.println("app.Field generated successfully!");
+            System.out.println("Field generated successfully!");
         } catch (IOException e) {
         }
     }
