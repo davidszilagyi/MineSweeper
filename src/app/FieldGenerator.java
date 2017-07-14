@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * Created by David Szilagyi on 2017. 07. 13..
  */
-public final class FieldGenerator {
+public abstract class FieldGenerator {
 
     private FieldGenerator() {}
 
