@@ -8,6 +8,8 @@ public final class Field {
     protected static final char BOOM = 'B';
     protected static final char FIELD = '.';
 
+    private Field() {}
+
     public static void showBoard(Object[][] board, int height, int width) {
         System.out.println("\nThe board:");
         for (int x = 0; x < height; x++) {
