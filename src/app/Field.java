@@ -7,4 +7,14 @@ public final class Field {
     protected static final char BOMB = '*';
     protected static final char BOOM = 'B';
     protected static final char FIELD = '.';
+
+    public static void showBoard(Object[][] board, int height, int width) {
+        System.out.println("\nThe board:");
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                System.out.print(board[x][y] + " ");
+            }
+            System.out.println();
+        }
+    }
 }
