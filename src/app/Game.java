@@ -5,67 +5,86 @@ import java.util.Scanner;
 /**
  * Created by David Szilagyi on 2017. 07. 13..
  */
-public class Game extends Mine{
+public class Game extends Mine {
     private int score;
     private boolean boomed = false;
     private Object[][] playerSolution = null;
     private boolean[][] checked;
-    private int boomZeros;
+    private boolean boomZeros;
+    private boolean hint;
+    private int playerXPos;
+    private int playerYPos;
 
     public Game(String file) {
         super(file);
         start();
         this.checked = new boolean[height][width];
-        this.boomZeros = 1;
+        this.boomZeros = true;
         this.playerSolution = new Object[height][width];
+        this.hint = false;
     }
 
     public void gameStart() {
         createSolutionField();
-        boomZeros();
         boolean game = true;
         while (game) {
             Field.showBoard(playerSolution, height, width);
-            System.out.printf("X Pos (1 - %d):", height);
-            int xPos = new Scanner(System.in).nextInt();
-            System.out.printf("Y Pos (1 - %d):", width);
-            int yPos = new Scanner(System.in).nextInt();
-            if (checked[xPos - 1][yPos - 1]) {
-                System.out.println("Already checked!");
-                continue;
-            } else if (checkBomb(xPos - 1, yPos - 1)) {
-                boomed = true;
-                game = false;
-                endGame(xPos - 1, yPos - 1);
-            } else {
-                score++;
-            }
-            if (checkAvailablePos()) {
-                game = false;
-                endGame();
+            System.out.print("Options -> 'Hit', 'Hint', 'Zero', 'End': ");
+            String answer = new Scanner(System.in).nextLine().toLowerCase();
+            switch (answer) {
+                case "hit":
+                    hint = false;
+                    input();
+                    if (checkField(playerXPos, playerYPos)) {
+                        game = false;
+                    }
+                    break;
+                case "hint":
+                    input();
+                    hint = true;
+                    appendSolution(playerXPos - 1, playerYPos - 1);
+                    break;
+                case "zero":
+                    boomZeros = !boomZeros;
+                    if(boomZeros) {
+                        System.out.println("Zeros will be destroyed!");
+                    } else {
+                        System.out.println("Zeros will NOT be destroyed!");
+                    }
+                    break;
+                case "end":
+                    game = false;
+                    endGame("End Game. Bye!");
+                    break;
+                default:
+                    System.out.println("Incorrect option!");
+                    break;
             }
         }
     }
 
-    private void boomZeros() {
-        System.out.print("Do you want to destroy zero fields if you hit one? (Y/N): ");
-        boolean correct = false;
-        while (!correct) {
-            String answer = new Scanner(System.in).nextLine();
-            switch (answer.toUpperCase().charAt(0)) {
-                case ('Y'):
-                    boomZeros = 1;
-                    correct = true;
-                    break;
-                case ('N'):
-                    boomZeros = 0;
-                    correct = true;
-                    break;
-                default:
-                    System.out.print("Please enter 'Y' or 'N': ");
-                    break;
-            }
+    private void input() {
+        System.out.printf("X Pos (1 - %d):", height);
+        playerXPos = new Scanner(System.in).nextInt();
+        System.out.printf("Y Pos (1 - %d):", width);
+        playerYPos = new Scanner(System.in).nextInt();
+    }
+
+    private boolean checkField(int xPos, int yPos) {
+        if (checked[xPos - 1][yPos - 1]) {
+            System.out.println("Already checked!");
+        } else if (checkBomb(xPos - 1, yPos - 1)) {
+            boomed = true;
+            endGame(xPos - 1, yPos - 1);
+            return true;
+        } else {
+            score++;
         }
+        if (checkAvailablePos()) {
+            endGame("\nYOU WIN!");
+            return true;
+        }
+        return false;
     }
 
     private void createSolutionField() {
@@ -94,7 +113,7 @@ public class Game extends Mine{
                 return true;
             } else {
                 appendSolution(xPos, yPos);
-                if (boomZeros == 1) {
+                if (boomZeros) {
                     if (playerSolution[xPos][yPos].equals(0)) {
                         checkZero(xPos, yPos);
                     }
@@ -129,13 +148,17 @@ public class Game extends Mine{
     }
 
     private void appendSolution(int xPos, int yPos) {
-        playerSolution[xPos][yPos] = board[xPos][yPos];
-        checked[xPos][yPos] = true;
+        if (hint) {
+            playerSolution[xPos][yPos] = Field.HINT;
+        } else {
+            playerSolution[xPos][yPos] = board[xPos][yPos];
+            checked[xPos][yPos] = true;
+        }
     }
 
-    private void endGame() {
+    private void endGame(String text) {
         Field.showBoard(board, height, width);
-        System.out.printf("\nYOU WIN!");
+        System.out.printf(text);
     }
 
     private void endGame(int lastXPos, int lastYPos) {
