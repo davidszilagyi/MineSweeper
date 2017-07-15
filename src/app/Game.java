@@ -69,13 +69,13 @@ public class Game extends Mine {
         boolean correctX = false;
         while (!correctX) {
             playerXPos = InputUtil.checkInput(String.format("X Pos (1 - %d):", height), Integer.class);
-            if (!InputUtil.checkPosition(playerXPos, height + 1) || !InputUtil.checkPosition(0, playerXPos)) {
+            if (!InputUtil.checkRightInput(playerXPos, height + 1) || !InputUtil.checkRightInput(0, playerXPos)) {
                 System.out.println("Wrong position!");
             } else {
                 boolean correctY = false;
                 while(!correctY) {
                     playerYPos = InputUtil.checkInput(String.format("Y Pos (1 - %d):", width), Integer.class);
-                    if (!InputUtil.checkPosition(playerYPos, width + 1) || !InputUtil.checkPosition(0, playerYPos)) {
+                    if (!InputUtil.checkRightInput(playerYPos, width + 1) || !InputUtil.checkRightInput(0, playerYPos)) {
                         System.out.println("Wrong position!");
                     } else {
                         correctX = true;
