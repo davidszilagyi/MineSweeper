@@ -13,6 +13,7 @@ public abstract class FieldGenerator {
 
     public static void generateAndWrite(int height, int width, int maxBombs) {
         Random rand = new Random();
+        String file = String.format("%s/%dx%d.txt", System.getProperty("user.dir"), height, width);
         char[] field = new char[2];
         int index = rand.nextInt(2);
         field[index] = Field.BOMB;
@@ -23,7 +24,7 @@ public abstract class FieldGenerator {
         }
         try {
             int curBombs = 0;
-            PrintWriter writer = new PrintWriter(String.format("%s/%dx%d.txt", System.getProperty("user.dir"), height, width));
+            PrintWriter writer = new PrintWriter(file);
             writer.printf("%d %d\n", height, width);
             for (int x = 0; x < height; x++) {
             String line = "";
@@ -46,6 +47,7 @@ public abstract class FieldGenerator {
                 writer.println(line);
             }
             writer.close();
+            Runtime.getRuntime().exec(String.format("attrib +H %s", file));
             System.out.println("Field generated successfully!");
         } catch (IOException e) {
         }

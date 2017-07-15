@@ -40,7 +40,6 @@ public class Mine {
                     counter++;
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
