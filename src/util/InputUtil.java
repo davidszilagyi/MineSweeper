@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 public class InputUtil {
     private static Scanner sc = new Scanner(System.in);
-    
+
     public static <T> T getInput(String text, Class<T> cls) {
         boolean correct = false;
         while (!correct) {
@@ -33,5 +33,18 @@ public class InputUtil {
 
     public static boolean checkInput(int number1, int number2) {
         return number1 < number2 ? true: false;
+    }
+
+    public static <T> T checkInput(String text, Class<T> cls, T compareTo) {
+        boolean correct = false;
+        while(!correct) {
+        T input = getInput(text, cls);
+            if (!input.equals(compareTo)) {
+                return input;
+            } else {
+                System.out.println("Wrong input!");
+            }
+        }
+        return null;
     }
 }
