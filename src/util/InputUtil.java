@@ -1,9 +1,5 @@
 package util;
 
-import java.io.BufferedReader;
-import java.io.Console;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Scanner;
@@ -35,7 +31,7 @@ public class InputUtil {
         return null;
     }
 
-    public static boolean checkPosition(int number1, int number2) {
+    public static boolean checkRightInput(int number1, int number2) {
         return number1 < number2 ? true: false;
     }
 }
