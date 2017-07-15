@@ -1,5 +1,7 @@
 package app;
 
+import util.InputUtil;
+
 import java.util.Scanner;
 
 /**
@@ -64,16 +66,23 @@ public class Game extends Mine {
     }
 
     private void input() {
-        boolean correct = false;
-        while(!correct) {
-            System.out.printf("X Pos (1 - %d):", height);
-            playerXPos = new Scanner(System.in).nextInt();
-            System.out.printf("Y Pos (1 - %d):", width);
-            playerYPos = new Scanner(System.in).nextInt();
-            if(playerXPos > height || playerYPos > width) {
-                System.out.println("Wrong positions!");
+        boolean correctX = false;
+        while (!correctX) {
+            playerXPos = InputUtil.checkInput(String.format("X Pos (1 - %d):", height), Integer.class);
+            if (!InputUtil.checkPosition(playerXPos, height + 1) || !InputUtil.checkPosition(0, playerXPos)) {
+                System.out.println("Wrong position!");
             } else {
-                correct = true;
+                boolean correctY = false;
+                while(!correctY) {
+                    playerYPos = InputUtil.checkInput(String.format("Y Pos (1 - %d):", width), Integer.class);
+                    if (!InputUtil.checkPosition(playerYPos, width + 1) || !InputUtil.checkPosition(0, playerYPos)) {
+                        System.out.println("Wrong position!");
+                    } else {
+                        correctX = true;
+                        correctY = true;
+                    }
+
+                }
             }
         }
     }
