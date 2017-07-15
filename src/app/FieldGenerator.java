@@ -12,7 +12,7 @@ public abstract class FieldGenerator {
     private FieldGenerator() {
     }
 
-    public static void generateAndWrite(int height, int width, int maxBombs) {
+    public static void generate(int height, int width, int maxBombs) {
         Random rand = new Random();
         char[] field = new char[2];
         int index = rand.nextInt(2);
