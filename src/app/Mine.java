@@ -1,9 +1,6 @@
 package app;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by David Szilagyi on 2017. 07. 13..
@@ -43,6 +40,7 @@ public class Mine {
                     counter++;
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

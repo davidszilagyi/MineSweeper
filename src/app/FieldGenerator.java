@@ -23,7 +23,7 @@ public abstract class FieldGenerator {
         }
         try {
             int curBombs = 0;
-            PrintWriter writer = new PrintWriter(String.format("src/fields/%dx%d.txt", height, width));
+            PrintWriter writer = new PrintWriter(String.format("%s/%dx%d.txt", System.getProperty("user.dir"), height, width));
             writer.printf("%d %d\n", height, width);
             for (int x = 0; x < height; x++) {
             String line = "";
