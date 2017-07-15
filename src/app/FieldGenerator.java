@@ -1,7 +1,5 @@
 package app;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Random;
 
 /**
@@ -9,47 +7,46 @@ import java.util.Random;
  */
 public abstract class FieldGenerator {
 
-    private FieldGenerator() {}
+    private static Object[][] board;
+
+    private FieldGenerator() {
+    }
 
     public static void generateAndWrite(int height, int width, int maxBombs) {
         Random rand = new Random();
-        String file = String.format("%s/%dx%d", System.getProperty("user.dir"), height, width);
         char[] field = new char[2];
         int index = rand.nextInt(2);
         field[index] = Field.BOMB;
-        if(index == 0) {
-            field[index+1] = Field.FIELD;
+        if (index == 0) {
+            field[index + 1] = Field.FIELD;
         } else {
-            field[index-1] = Field.FIELD;
+            field[index - 1] = Field.FIELD;
         }
-        try {
-            int curBombs = 0;
-            PrintWriter writer = new PrintWriter(file);
-            writer.printf("%d %d\n", height, width);
-            for (int x = 0; x < height; x++) {
-            String line = "";
-                for (int y = 0; y < width; y++) {
-                    char append = field[rand.nextInt(2)];
-                    if(append == Field.BOMB) {
-                        if(curBombs == maxBombs) {
-                            append = Field.FIELD;
+        board = new Object[height][width];
+        int curBombs = 0;
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                char append = field[rand.nextInt(2)];
+                if (append == Field.BOMB) {
+                    if (curBombs == maxBombs) {
+                        append = Field.FIELD;
+                    } else {
+                        if (rand.nextBoolean() && rand.nextBoolean()) {
+                            append = Field.BOMB;
+                            curBombs++;
                         } else {
-                            if(rand.nextBoolean() && rand.nextBoolean()) {
-                                append = Field.BOMB;
-                                curBombs++;
-                            } else {
-                                append = Field.FIELD;
-                            }
+                            append = Field.FIELD;
                         }
                     }
-                    line += append;
                 }
-                writer.println(line);
+                board[x][y] = append;
             }
-            writer.close();
-            Runtime.getRuntime().exec(String.format("attrib +H %s", file));
-            System.out.println("Field generated successfully!");
-        } catch (IOException e) {
         }
+        System.out.println("Field generated successfully!\n");
+        System.out.println(String.format("The field is %dx%d", height, width));
+    }
+
+    public static Object[][] getBoard() {
+        return board;
     }
 }

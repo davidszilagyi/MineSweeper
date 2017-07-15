@@ -1,48 +1,18 @@
 package app;
 
-import java.io.*;
-
 /**
  * Created by David Szilagyi on 2017. 07. 13..
  */
 public class Mine {
-    private BufferedReader br = null;
     protected int height;
     protected int width;
     protected Object[][] board;
     protected int curBombs;
 
-    public Mine(String file) {
-        try {
-            this.br = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void createBoard() {
-        try {
-            String line;
-            int counter = 0;
-            int x = 0;
-            while ((line = br.readLine()) != null) {
-                if (counter == 0) {
-                    height = Integer.valueOf(line.split(" ")[0]);
-                    width = Integer.valueOf(line.split(" ")[1]);
-                    board = new Object[height][width];
-                    System.out.println(String.format("\nThe table is: %dx%d", height, width));
-                    counter++;
-                } else {
-                    for (int y = 0; y < width; y++) {
-                        board[x][y] = line.charAt(y);
-                    }
-                    x++;
-                    counter++;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Mine(Object[][] board) {
+        this.board = board;
+        this.height = board.length;
+        this.width = board[0].length;
     }
 
     private void addZero() {
@@ -80,7 +50,6 @@ public class Mine {
     }
 
     public void start() {
-        createBoard();
         addZero();
         solve();
     }

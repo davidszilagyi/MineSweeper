@@ -17,8 +17,8 @@ public class Game extends Mine {
     private int playerXPos;
     private int playerYPos;
 
-    public Game(String file) {
-        super(file);
+    public Game(Object[][] board) {
+        super(board);
         start();
         this.checked = new boolean[height][width];
         this.boomZeros = true;
@@ -187,7 +187,7 @@ public class Game extends Mine {
                 }
             }
             Field.showBoard(playerSolution, height, width);
-            System.out.printf("\nBOOOOOOOM!\nYou lost :(\nScore: %d", score);
+            System.out.printf("\nBOOOOOOOM!\nYou lost :(\nScore: %d\n", score);
         }
     }
 }
