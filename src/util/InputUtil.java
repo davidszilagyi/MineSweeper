@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class InputUtil {
     private static Scanner sc = new Scanner(System.in);
     
-    public static <T> T checkInput(String text, Class<T> cls) {
+    public static <T> T getInput(String text, Class<T> cls) {
         boolean correct = false;
         while (!correct) {
             System.out.print(text);
@@ -31,7 +31,7 @@ public class InputUtil {
         return null;
     }
 
-    public static boolean checkRightInput(int number1, int number2) {
+    public static boolean checkInput(int number1, int number2) {
         return number1 < number2 ? true: false;
     }
 }
