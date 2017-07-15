@@ -11,7 +11,7 @@ public class Main {
         int width = InputUtil.checkInput("Add the width: ", Integer.class);;
         int bombs = InputUtil.checkInput("Add the max bombs number: ", Integer.class);;
         FieldGenerator.generateAndWrite(height, width, bombs);
-        Game game = new Game(String.format("%s/%dx%d.txt", System.getProperty("user.dir"), height, width));
+        Game game = new Game(String.format("%s/%dx%d", System.getProperty("user.dir"), height, width));
         game.gameStart();
     }
 }

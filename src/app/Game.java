@@ -56,7 +56,7 @@ public class Game extends Mine {
                     break;
                 case "end":
                     game = false;
-                    endGame("End Game. Bye!");
+                    endGame("End Game. Bye!\n");
                     break;
                 default:
                     System.out.println("Incorrect option!");
@@ -98,7 +98,7 @@ public class Game extends Mine {
             score++;
         }
         if (checkAvailablePos()) {
-            endGame("\nYOU WIN!");
+            endGame("\nYOU WIN!\n");
             return true;
         }
         return false;
