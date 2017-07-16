@@ -2,6 +2,7 @@ package util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -31,20 +32,40 @@ public class InputUtil {
         return null;
     }
 
-    public static boolean checkInput(int number1, int number2) {
-        return number1 < number2 ? true: false;
-    }
-
-    public static <T> T checkInput(String text, Class<T> cls, T compareTo) {
+    public static <T> T checkInput(String text, Class<T> cls, T compareTo1, T compareTo2) {
         boolean correct = false;
-        while(!correct) {
-        T input = getInput(text, cls);
-            if (!input.equals(compareTo)) {
+        while (!correct) {
+            T input = getInput(text, cls);
+            if (compareTo2 == null) {
+                if (compare(input, compareTo1) > 0) {
+                    return input;
+                } else {
+                    System.out.println("Wrong input!");
+                }
+            } else if(compare(input, compareTo1) > 0 && compare(compareTo2, input) > 0) {
                 return input;
             } else {
                 System.out.println("Wrong input!");
             }
         }
         return null;
+    }
+
+    private static int compare(Object o1, Object o2) {
+        try {
+            int number1 = Integer.parseInt(String.valueOf(o1));
+            int number2 = Integer.parseInt(String.valueOf(o2));
+            if (number1 == number2) {
+                return 0;
+            } else if (number1 < number2) {
+                return -1;
+            } else if (number1 > number2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (ClassCastException e) {
+            return 0;
+        }
     }
 }
