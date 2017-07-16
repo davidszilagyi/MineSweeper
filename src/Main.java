@@ -7,9 +7,9 @@ import util.InputUtil;
  */
 public class Main {
     public static void main(String[] args) {
-        int height = InputUtil.checkInput("Add the height: ", Integer.class, new Integer(0), null);
-        int width = InputUtil.checkInput("Add the width: ", Integer.class, new Integer(0), null);
-        int bombs = InputUtil.checkInput("Add max bombs: ", Integer.class, new Integer(0), null);
+        int height = InputUtil.checkInput("Add the height: ", Integer.class, 0, null);
+        int width = InputUtil.checkInput("Add the width: ", Integer.class, 0, null);
+        int bombs = InputUtil.checkInput("Add max bombs: ", Integer.class, 0, null);
         FieldGenerator.generate(height, width, bombs);
         Game game = new Game(FieldGenerator.getBoard());
         game.gameStart();

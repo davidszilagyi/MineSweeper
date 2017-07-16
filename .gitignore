@@ -9,7 +9,6 @@
 .idea/**/tasks.xml
 .idea/dictionaries
 .idea/
-/src/fields
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
