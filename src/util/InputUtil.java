@@ -11,41 +11,30 @@ public class InputUtil {
     private static Scanner sc = new Scanner(System.in);
 
     public static <T> T getInput(String text, Class<T> cls) {
-        boolean correct = false;
-        while (!correct) {
-            System.out.print(text);
-            String input = sc.next();
-            try {
-                Method method = cls.getMethod("valueOf", String.class);
-                return cls.cast(method.invoke(null, input));
-            } catch (ClassCastException e) {
-                System.out.println("Wrong input!");
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                System.out.println("Wrong input!");
-            }
+        System.out.print(text);
+        String input = sc.next();
+        try {
+            Method method = cls.getMethod("valueOf", String.class);
+            return cls.cast(method.invoke(null, input));
+        } catch (Exception e) {
+            return null;
         }
-        return null;
     }
 
     public static <T> T checkInput(String text, Class<T> cls, T compareTo1, T compareTo2) {
         boolean correct = false;
         while (!correct) {
             T input = getInput(text, cls);
-            if (compareTo2 == null) {
-                if (compare(input, compareTo1) > 0) {
+            if (input != null) {
+                if (compareTo2 == null) {
+                    if (compare(input, compareTo1) > 0) {
+                        return input;
+                    }
+                } else if (compare(input, compareTo1) > 0 && compare(compareTo2, input) > 0) {
                     return input;
-                } else {
-                    System.out.println("Wrong input!");
                 }
-            } else if(compare(input, compareTo1) > 0 && compare(compareTo2, input) > 0) {
-                return input;
-            } else {
-                System.out.println("Wrong input!");
             }
+            System.out.println("Wrong input!");
         }
         return null;
     }
